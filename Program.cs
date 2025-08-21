@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-//  adds the database context to the dependency injection (DI) container and enables displaying database-related exceptions
+
+//  adds the DBContext to the dependency injection (DI) container and enables displaying database-related exceptions
 // The DI container provides access to the database context and other services.
 builder.Services.AddDbContext<TodoDb>(opt => opt.UseInMemoryDatabase("TodoList"));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -16,6 +17,7 @@ builder.Services.AddOpenApiDocument(config =>
 });
 
 var app = builder.Build();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseOpenApi();
@@ -28,6 +30,8 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+
+// Define routes
 app.MapGet("/todoitems", async (TodoDb db) =>
     await db.Todos.ToListAsync());
 
@@ -35,10 +39,9 @@ app.MapGet("/todoitems/complete", async (TodoDb db) =>
     await db.Todos.Where(t => t.IsComplete).ToListAsync());
 
 app.MapGet("/todoitems/{id}", async (int id, TodoDb db) =>
-    await db.Todos.FindAsync(id)
-        is Todo todo
-            ? Results.Ok(todo)
-            : Results.NotFound());
+    await db.Todos.FindAsync(id) is Todo todo
+        ? Results.Ok(todo)
+        : Results.NotFound("Not found"));
 
 app.MapPost("/todoitems", async (Todo todo, TodoDb db) =>
 {

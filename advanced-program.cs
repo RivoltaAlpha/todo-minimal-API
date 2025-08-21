@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure services
-builder.Services.AddDbContext<TodoDb>(opt => opt.UseInMemoryDatabase("TodoList"));
+builder.Services.AddDbContext<AdvancedDb>(opt => opt.UseInMemoryDatabase("TodoList"));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // Add OpenAPI/Swagger
@@ -27,7 +27,7 @@ var todoItems = app.MapGroup("/api/todoitems")
     .WithOpenApi();
 
 // GET /api/todoitems - Get all todos (not deleted)
-todoItems.MapGet("/", async (TodoDb db) =>
+todoItems.MapGet("/", async (AdvancedDb db) =>
 {
     var todos = await db.Todos
         .Where(t => !t.IsDeleted)
@@ -41,7 +41,7 @@ todoItems.MapGet("/", async (TodoDb db) =>
 .Produces<TodoResponse[]>();
 
 // GET /api/todoitems/complete - Get completed todos
-todoItems.MapGet("/complete", async (TodoDb db) =>
+todoItems.MapGet("/complete", async (AdvancedDb db) =>
 {
     var completeTodos = await db.Todos
         .Where(t => t.IsComplete && !t.IsDeleted)
@@ -55,7 +55,7 @@ todoItems.MapGet("/complete", async (TodoDb db) =>
 .Produces<TodoResponse[]>();
 
 // GET /api/todoitems/{id} - Get specific todo
-todoItems.MapGet("/{id:int}", async (int id, TodoDb db) =>
+todoItems.MapGet("/{id:int}", async (int id, AdvancedDb db) =>
 {
     var todo = await db.Todos
         .Where(t => t.Id == id && !t.IsDeleted)
@@ -72,7 +72,7 @@ todoItems.MapGet("/{id:int}", async (int id, TodoDb db) =>
 .Produces(404);
 
 // POST /api/todoitems - Create new todo
-todoItems.MapPost("/", async (CreateTodoRequest request, TodoDb db) =>
+todoItems.MapPost("/", async (CreateTodoRequest request, AdvancedDb db) =>
 {
     var todo = new Todo
     {
@@ -94,7 +94,7 @@ todoItems.MapPost("/", async (CreateTodoRequest request, TodoDb db) =>
 .ProducesValidationProblem();
 
 // PUT /api/todoitems/{id} - Update existing todo
-todoItems.MapPut("/{id:int}", async (int id, UpdateTodoRequest request, TodoDb db) =>
+todoItems.MapPut("/{id:int}", async (int id, UpdateTodoRequest request, AdvancedDb db) =>
 {
     var todo = await db.Todos.FindAsync(id);
     
@@ -117,7 +117,7 @@ todoItems.MapPut("/{id:int}", async (int id, UpdateTodoRequest request, TodoDb d
 .ProducesValidationProblem();
 
 // DELETE /api/todoitems/{id} - Soft delete todo
-todoItems.MapDelete("/{id:int}", async (int id, TodoDb db) =>
+todoItems.MapDelete("/{id:int}", async (int id, AdvancedDb db) =>
 {
     var todo = await db.Todos.FindAsync(id);
     
