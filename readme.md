@@ -14,9 +14,28 @@ By the end of this tutorial, you'll have a fully functional Todo API that can:
 
 ## Prerequisites
 
-- [.NET 6 SDK or later](https://dotnet.microsoft.com/download)
+- [.NET 9 SDK or later](https://dotnet.microsoft.com/download)
 - [Visual Studio Code](https://code.visualstudio.com/) (recommended)
-- Basic knowledge of C# (helpful but not required)
+- Basic knowledge of C# 
+
+## When to Use Minimal APIs vs Controllers
+
+### Use Minimal APIs when:
+- Building microservices with focused functionality
+- Creating simple APIs with few endpoints
+- Prototyping or building lightweight applications
+- You want maximum performance with minimal overhead
+- Working with functional programming style
+- Building cloud-native applications
+
+### Use Controllers when:
+- Building complex APIs with many endpoints
+- Need advanced features like model binding, validation attributes
+- Working with large teams (better code organization)
+- Migrating from older ASP.NET versions
+- Need complex routing scenarios
+- Prefer object-oriented programming style
+- Building enterprise applications with many business rules
 
 ## Step 1: Create Your Project
 
