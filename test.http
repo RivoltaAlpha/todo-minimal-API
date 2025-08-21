@@ -1,0 +1,76 @@
+### Create a new todo
+POST https://localhost:7208/todoitems
+Content-Type: application/json
+
+  {
+    "name": "Cook Dinner",
+    "isComplete": true
+  }
+
+
+### Get all todos
+GET https://localhost:7208/todoitems
+
+### Get completed todos only
+GET https://localhost:7208/todoitems/complete
+
+### Put
+PUT https://localhost:7208/todoitems/3
+Content-Type: application/json
+
+{
+  "name": "Cook Dinner",
+  "isComplete": false
+}
+
+### delete
+DELETE https://localhost:7208/todoitems/4
+
+
+// advanced
+### Get all todos
+GET https://localhost:7xxx/api/todoitems
+
+### Create a new todo (valid)
+POST https://localhost:7xxx/api/todoitems
+Content-Type: application/json
+
+{
+  "name": "Learn Advanced Minimal APIs",
+  "isComplete": false
+}
+
+### Create a new todo (invalid - too short name)
+POST https://localhost:7xxx/api/todoitems
+Content-Type: application/json
+
+{
+  "name": "",
+  "isComplete": false
+}
+
+### Try to over-post (this will be ignored)
+POST https://localhost:7xxx/api/todoitems
+Content-Type: application/json
+
+{
+  "name": "Malicious Todo",
+  "isComplete": false,
+  "isDeleted": true,
+  "createdBy": "hacker"
+}
+
+### Update a todo
+PUT https://localhost:7xxx/api/todoitems/1
+Content-Type: application/json
+
+{
+  "name": "Updated todo name",
+  "isComplete": true
+}
+
+### Get completed todos
+GET https://localhost:7xxx/api/todoitems/complete
+
+### Delete a todo (soft delete)
+DELETE https://localhost:7xxx/api/todoitems/1
